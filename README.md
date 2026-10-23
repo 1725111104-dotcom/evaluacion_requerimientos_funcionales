@@ -1,0 +1,2 @@
+# evaluacion_requerimientos_funcionales
+Con ollama
