@@ -1,7 +1,7 @@
 import ollama
 
 requerimiento = (
-    "El alumno ingresa a su autoevaluación en el sistema de calificaciones, en el cual "
+    "El alumno ingresa a su autoevaluación en el sistema de calificaciones, al ingresar "
     "debe asignarse una calificación, la cual será guardada en la base de datos "
     "en la tabla de calificaciones, la cual estará basada en una escala del 100% "
     "del porcentaje, el cual se repartirá en sus hard skills."
@@ -13,7 +13,7 @@ response = ollama.systemone(
     questions={
         "condicion": {
             "type": "noul",
-            "instructions": "¿El requerimiento funcional incluye una situación que detona el evento?",
+            "instructions": "¿El requerimiento funcional incluye una situación que detona el evento que causa todo?",
             "criteria": {
                 "true": "Especifica claramente el evento o situación detonante",
                 "false": "No menciona qué acción dispara la acción",
@@ -29,9 +29,9 @@ response = ollama.systemone(
         },
         "condicion_2": {
             "type": "noul",
-            "instructions": "¿Se encuentra el verbo normativo (debe) en el reuqerimiento?",
+            "instructions": "¿Se encuentra el verbo normativo <debe> en el reuqerimiento?",
             "criteria": {
-                "true": "Especifica claramente el verbo debe",
+                "true": "Se encuentra claramente esscrito el verbo debe",
                 "false": "No menciona el verbo",
             },        
         }, 
@@ -63,8 +63,38 @@ response = ollama.systemone(
 )
 
 condicion = response.answers["condicion"].noul
+condicion_1 = response.answers["condicion_1"].noul
+condicion_2 = response.answers["condicion_2"].noul
+condicion_3 = response.answers["condicion_3"].noul
+condicion_4 = response.answers["condicion_4"].noul
+condicion_5 = response.answers["condicion_5"].noul
 
 if condicion >= 0.05:
     print(f"1. Cumple con la condición: {condicion}")
 else:
     print(f"2. No cumple con la condición {condicion}")
+
+if condicion_1 >= 0.05:
+    print(f"1. Cumple con la condición: {condicion_1}")
+else:
+    print(f"2. No cumple con la condición {condicion_1}")
+
+if condicion_2 >= 0.05:
+    print(f"1. Cumple con la condición: {condicion_2}")
+else:
+    print(f"2. No cumple con la condición {condicion_2}")
+
+if condicion_3 >= 0.05:
+    print(f"1. Cumple con la condición: {condicion_3}")
+else:
+    print(f"2. No cumple con la condición {condicion_3}")
+
+if condicion_4 >= 0.05:
+    print(f"1. Cumple con la condición: {condicion_4}")
+else:
+    print(f"2. No cumple con la condición {condicion_4}")
+
+if condicion_5 >= 0.05:
+    print(f"1. Cumple con la condición: {condicion_5}")
+else:
+    print(f"2. No cumple con la condición {condicion_5}")
