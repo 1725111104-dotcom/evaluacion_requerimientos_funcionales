@@ -12,16 +12,10 @@ response = ollama.systemone(
             'criteria' : {
                 'true' : 'Especifica claramente el evento o situación detonante',
                 'false' : 'No menciona qué acción dispara la acción'
-                },
-        'condicion': {
-            'type' : 'noul',
-            'instructions' : '¿El requerimiento funcional incluye un sujeto?'
-            'criteria' : {
-                'true' : 'Especifica claramente el sujeto (el sistema) que lo realizará'
-                'false' : 'No menciona al sujeto que realizará el requerimiento'
-            },
-        },
-    },
+                }
+            }
+        }
+
 )
 
 condicion = response.answers['condicion'].noul
