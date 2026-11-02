@@ -1,39 +1,59 @@
-async function evaluacion() { 
-    try { 
+async function evaluacion() {
+    const requerimiento = document
+        .getElementById("requerimientos")
+        .value.trim();
 
-        const uri = "https://noxious-spooky-fishsticks-r7rgrjq56q443ppqv-11434.app.github.dev/v1/systemone"; 
-        const requerimiento = "El alumno al ingresar a su autoevaluación en el sistema de calificaciones."; 
-        const data = { 
-            model: "d1-omni:600m", 
-            state: requerimiento, 
-            questions: { 
-                condicion: { 
-                    type: "noul", 
-                    instructions: "¿El requerimiento funcional incluye una situación que detona el evento?", 
-                    criterio: { 
-                        true: "Especifica claramente el evento o situación detonante", 
-                        false: "No menciona qué acción dispara la acción" 
-                    } 
-                } 
-            } 
-        }; 
+    const resultado = document.getElementById("resultado");
+    const boton = document.getElementById("evaluacion");
 
-        const response = await fetch(uri, { 
-            method: "POST", 
-            headers: { 
-                "Content-Type": "application/json" 
-            }, 
-            body: JSON.stringify(data) 
+    if (!requerimiento) {
+        resultado.textContent = "Escribe un requerimiento primero.";
+        return;
+    }
+
+    boton.disabled = true;
+    resultado.textContent = "Evaluando...";
+
+    try {
+        const respuesta = await fetch("/evaluar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                requerimiento: requerimiento
+            })
+        });
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(datos.error || "Error al evaluar.");
         }
-    ); 
 
-        const resultado = await response.json(); 
-        
-        console.log("Conexión con la API exitosa", resultado); 
-        console.log("Criterio:", resultado.answers.criterio.noul); 
+        resultado.replaceChildren();
 
-    } catch (error) { 
-        console.log("Ups, algo falló", error.message); 
-        throw error; 
-    } 
+        const resumen = document.createElement("p");
+        resumen.textContent =
+            `Cumple ${datos.cumplidos} de ${datos.total} parámetros.`;
+
+        resultado.appendChild(resumen);
+
+        datos.resultados.forEach(item => {
+            const linea = document.createElement("p");
+
+            linea.textContent =
+                item.nombre + ": " +
+                (item.cumple ? "Cumple" : "No cumple");
+
+            resultado.appendChild(linea);
+        });
+
+    } catch (error) {
+        resultado.textContent =
+            "Error: " + error.message;
+
+    } finally {
+        boton.disabled = false;
+    }
 }

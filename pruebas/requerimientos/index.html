@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset = "UTF-8">
-        <title>Requerimientos</title>
-    </head>
-    <body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Evaluador de Requerimientos</title>
+</head>
+<body>
 
-        <button id="evaluacion" onclick="evaluacion()">Evaluacion</button>
+    <h2>Evaluador de Requerimientos Funcionales</h2>
 
-        <script src="static/js/script.js"></script>
-    </body>
+    <textarea
+        id="requerimientos"
+        rows="6"
+        cols="60"
+        placeholder="Escribe tu requerimiento aquí..."
+    ></textarea>
+
+    <br><br>
+
+    <button id="evaluacion" onclick="evaluacion()">
+        Evaluar
+    </button>
+
+    <div id="resultado"></div>
+
+    <script src="/static/js/script.js"></script>
+
+</body>
 </html>
